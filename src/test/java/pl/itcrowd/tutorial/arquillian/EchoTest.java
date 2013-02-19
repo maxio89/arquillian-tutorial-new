@@ -2,12 +2,14 @@ package pl.itcrowd.tutorial.arquillian;
 
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.persistence.ShouldMatchDataSet;
+import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static org.junit.Assert.assertEquals;
+import javax.ejb.EJB;
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,26 +22,30 @@ import static org.junit.Assert.assertEquals;
 @RunWith(Arquillian.class)
 public class EchoTest {
 
+    @EJB
+    private Echo echo;
+
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class, "test.jar")
-                .addClasses(Echo.class);
+                .addClasses(Echo.class, Message.class)
+                .addAsResource("test-persistence.xml", "META-INF/persistence.xml");
+
     }
 
+    @ShouldMatchDataSet(excludeColumns = "id")
+    @UsingDataSet
     @Test
     public void testEcho() {
 
         //Given
         final String message = "Jack";
-        final Echo echo = new Echo();
 
         //When
-        final String result = echo.echo(message);
+        echo.echo(message);
 
         //Then
-        assertEquals(message, result);
 
     }
-
 
 }
