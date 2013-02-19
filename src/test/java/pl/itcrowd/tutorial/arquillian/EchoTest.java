@@ -5,11 +5,12 @@ import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.persistence.ShouldMatchDataSet;
 import org.jboss.arquillian.persistence.UsingDataSet;
 import org.jboss.shrinkwrap.api.ShrinkWrap;
+import org.jboss.shrinkwrap.api.asset.EmptyAsset;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import javax.ejb.EJB;
+import javax.inject.Inject;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,14 +23,15 @@ import javax.ejb.EJB;
 @RunWith(Arquillian.class)
 public class EchoTest {
 
-    @EJB
+    @Inject
     private Echo echo;
 
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class, "test.jar")
                 .addClasses(Echo.class, Message.class)
-                .addAsResource("test-persistence.xml", "META-INF/persistence.xml");
+                .addAsResource("test-persistence.xml", "META-INF/persistence.xml")
+                .addAsManifestResource(EmptyAsset.INSTANCE, "beans.xml");
 
     }
 
