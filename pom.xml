@@ -35,6 +35,13 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.jboss.arquillian.extension</groupId>
+            <artifactId>arquillian-persistence-impl</artifactId>
+            <version>1.0.0.Alpha5</version>
+            <scope>test</scope>
+        </dependency>
+
         <!--Java EE 6-->
 
         <dependency>
