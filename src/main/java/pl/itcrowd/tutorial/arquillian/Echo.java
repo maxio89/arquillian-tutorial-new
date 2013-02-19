@@ -1,5 +1,9 @@
 package pl.itcrowd.tutorial.arquillian;
 
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 /**
  * Created with IntelliJ IDEA.
  * User: piotrek
@@ -7,8 +11,14 @@ package pl.itcrowd.tutorial.arquillian;
  * Time: 3:21 PM
  * To change this template use File | Settings | File Templates.
  */
+
+@Stateless
 public class Echo {
-    public String echo(String message) {
-        return message;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public void echo(String message) {
+        entityManager.persist(new Message(message));
     }
 }
