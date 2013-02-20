@@ -12,4 +12,12 @@
         <property name="scriptsToExecuteBeforeTest">scripts/restart-sequence.sql</property>
     </extension>
 
+    <container qualifier="jbossas-remote-7" default="true"/>
+
+    <extension qualifier="webdriver">
+        <property name="browserCapabilities">firefox</property>
+        <property name="remoteReusable">true</property>
+        <property name="remoteAddress">http://localhost:4444/wd/hub</property>
+    </extension>
+
 </arquillian>
